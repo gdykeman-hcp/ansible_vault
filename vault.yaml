@@ -1,6 +1,6 @@
 ---
 - name: Retrieve Vault Secret(s)
-  hosts: rhel
+  hosts: all
   gather_facts: no
 
   tasks:
