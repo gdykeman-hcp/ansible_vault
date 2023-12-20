@@ -1,6 +1,6 @@
 ---
 - name: Retrieve Vault Secret(s)
-  hosts: all
+  hosts: localhost
   gather_facts: no
 
   tasks:
