@@ -10,10 +10,24 @@
         - hvac
 
   tasks:
-  - ansible.builtin.debug:
-      msg: "{{ lookup('community.hashi_vault.vault_read', *vault_secret_paths, auth_method=vault_auth_method, username=vault_username, password=vault_password, namespace=vault_namespace, url=vault_url) }}"
+  # - ansible.builtin.debug:
+  #     msg: "{{ lookup('community.hashi_vault.vault_read', *vault_secret_paths, auth_method=vault_auth_method, username=vault_username, password=vault_password, namespace=vault_namespace, url=vault_url) }}"
+  #   register: secret
+
+  - name: Read the latest version of a kv2 secret from Vault via the remote host with userpass auth
+    community.hashi_vault.vault_kv2_get:
+      url: "{{ vault_url }}"
+      path: "{{ vault_secret_path }}"
+      auth_method: "{{ vault_auth_method }}"
+      username: "{{ vault_username }}"
+      password: '{{ vault_password }}'
+      namespace: "{{ vault_namespace }}"
+      engine_mount_point: "{{ vault_engine_mount_point }}"
     register: secret
 
   - ansible.builtin.debug:
-      msg: "{{ item.data.data }}"
-    loop: "{{ secret.msg }}"
+      msg: "{{ secret.data.data.ansible }}"
+
+  # - ansible.builtin.debug:
+  #     msg: "{{ item.data.data }}"
+  #   loop: "{{ secret.msg }}"
